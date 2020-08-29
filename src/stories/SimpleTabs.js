@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, Tabs, Tab, Typography, Box, Button, ButtonGroup } from '@material-ui/core';
+import { makeStyles, Tabs, Tab, Typography, Box, Button, ButtonGroup, AppBar, Toolbar  } from '@material-ui/core';
 import { useTranslation, withTranslation } from 'react-i18next';
 import SimpleTable from './SimpleTable';
 
@@ -55,6 +55,23 @@ const useStyles = makeStyles((theme) => ({
   },
   languageToolbar : {
     float : 'right'
+  },
+  heading : {
+    fontWeight: 'bold',
+    color: '#2B416C',
+    paddingTop: '20px',
+    paddingBottom: '10px',
+  },
+  header : {
+    backgroundColor: '#1F2640',
+  },
+  logo : {
+    paddingTop: '10px',
+    paddingBottom: '10px',
+    width : '15%'
+  },
+  logoWrapper : {
+    paddingLeft : '3px'
   }
 }));
 
@@ -72,7 +89,17 @@ function SimpleTabs(props) {
   };
 
   return (
-    <div className={classes.root}> 
+    <div className={classes.root}>
+      <AppBar position="static" className={classes.header}>
+        <Toolbar variant="dense" className={classes.logoWrapper}>          
+           <img className={classes.logo} src="https://cdn-www.bluestacks.com/bs-images/bs-logo-new.png"/> 
+          <Typography variant="h6" color="inherit">            
+          </Typography>
+        </Toolbar>
+      </AppBar> 
+      <Typography variant="h4" gutterBottom className={classes.heading}>        
+        {t ? t('Manage Campaigns') : 'Manage Campaigns'}
+      </Typography>
       <ButtonGroup className={classes.languageToolbar} color="secondary" aria-label="outlined secondary button group">
         <Button onClick={() => changeLanguage('en')}>English</Button>
         <Button onClick={() => changeLanguage('de')}>German</Button>
