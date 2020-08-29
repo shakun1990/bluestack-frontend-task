@@ -2,6 +2,9 @@ import React from 'react';
 
 import SimpleTabs from './SimpleTabs';
 import {State, Store} from '@sambego/storybook-state';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../../config/i18n';
+import { storiesOf } from '@storybook/react';
 
 export default {
   title: 'Example/BlueStack',
@@ -70,8 +73,15 @@ export const CampaignStory = () => {
     return (
       <State store={store}>
         {state => (
-            <SimpleTabs rowsData={initializeRowData(state.data, 0)}/>
+            <I18nextProvider i18n={i18n}>
+              <SimpleTabs someprop="shakun" rowsData={initializeRowData(state.data, 0)}/>
+            </I18nextProvider>
         )}
       </State>
     )
 }
+
+storiesOf('with I18nextProvider', module)
+  .addDecorator(story => <I18nextProvider i18n={i18n}>{CampaignStory()}</I18nextProvider>)
+
+

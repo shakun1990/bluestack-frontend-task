@@ -6,6 +6,11 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SimpleTable from './SimpleTable';
+import { useTranslation, withTranslation } from 'react-i18next';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,23 +61,37 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'inherit',
     fontSize: '16px',
     textTransform: 'none'
+  },
+  languageToolbar : {
+    float : 'right'
   }
 }));
 
-export default function SimpleTabs(props) {
+function SimpleTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = lng => {
+    props.i18n.changeLanguage(lng);
+  };
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setValue(newValue);   
   };
 
   return (
-    <div className={classes.root}>      
-      <Tabs classes={{ indicator: classes.indicator }}  value={value} onChange={handleChange} aria-label="simple tabs example">
-        <Tab classes={{ selected: classes.selectedTab }} label={<span className={classes.label}>Upcoming Campaigns</span>} {...a11yProps(0)} />
-        <Tab classes={{ selected: classes.selectedTab }} label={<span className={classes.label}>Live Campaigns</span>} {...a11yProps(1)} />
-        <Tab classes={{ selected: classes.selectedTab }} label={<span className={classes.label}>Past Campaigns</span>} {...a11yProps(2)} />
+    <div className={classes.root}>         
+      <div className={classes.languageToolbar}>
+      <ButtonGroup color="secondary" aria-label="outlined secondary button group">
+        <Button onClick={() => changeLanguage('en')}>English</Button>
+        <Button onClick={() => changeLanguage('de')}>German</Button>
+      </ButtonGroup>
+      </div> 
+      <Tabs id="bluestack-simpleTabs" classes={{ indicator: classes.indicator }}  value={value} onChange={handleChange} aria-label="simple tabs example">
+        <Tab classes={{ selected: classes.selectedTab }} label={<span className={classes.label}>{t ? t('Upcoming Campaigns') : 'Upcoming Campaigns'}</span>} {...a11yProps(0)} />
+        <Tab classes={{ selected: classes.selectedTab }} label={<span className={classes.label}>{t ? t('Live Campaigns') : 'Live Campaigns'}</span>} {...a11yProps(1)} />
+        <Tab classes={{ selected: classes.selectedTab }} label={<span className={classes.label}>{t ? t('Past Campaigns') : 'Past Campaigns'}</span>} {...a11yProps(2)} />
       </Tabs>      
       <TabPanel value={value} index={0}>        
         <SimpleTable rowsData={props.rowsData}/>
@@ -86,3 +105,5 @@ export default function SimpleTabs(props) {
     </div>
   );
 }
+
+export default withTranslation()(SimpleTabs);

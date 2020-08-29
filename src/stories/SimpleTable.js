@@ -51,7 +51,7 @@ const datePickerProperties = {
   orientation : 'landscape',
   variant: 'inline',
   isToolbarEnabled : false,
-  inputProps : {disableUnderline : true},
+  inputProps : {disableunderline : "true"},
   format: 'M/D/YYYY',
   isAutoOkEnabled : true
 }
@@ -76,10 +76,8 @@ export default function SimpleTable(props) {
   const [rowData, setRowData] = useState(props.rowsData);
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDate, handleDateChange] = useState(new Date());
   const [modalStyle] = React.useState(getModalStyle);
-
-
+  const [info,setInfo] = useState({ fieldname:'', fieldvalue:'' });
   useEffect(() => {
     setRowData(props.rowsData);
   }, [props.rowsData])  
@@ -91,6 +89,11 @@ export default function SimpleTable(props) {
     setIsModalOpen(false);
   };
 
+  const handleDateChange = (dateName, dateValue) => {   
+    setInfo({...info, fieldname: dateName, fieldvalue: dateValue })
+  }
+  
+
   const body = (campaignName, region, thumbnail) => {
     return (
     <div style={modalStyle} className={classes.paper}>
@@ -101,11 +104,11 @@ export default function SimpleTable(props) {
       <br/>
       <br/>
       <h2 id="simple-modal-title"><b>Pricing</b></h2>
-      <p id="simple-modal-description">
+      <span id="simple-modal-description">
          1 Week - 1 Month - $100<br/>
          6 Month - $500<br/>
          1 Year  - $900<br/>
-      </p>
+      </span>
       <button type="button" onClick={handleClose}>
         Close
       </button>
@@ -126,53 +129,54 @@ export default function SimpleTable(props) {
         </TableHead>
         <TableBody>
           {Array.from(rowData.values()).map((row) =>
-              <TableRow key={row.rowId}>
-              <StyledTableCell style={{whiteSpace: 'pre-line'}}>{moment(row.date).format('MMM Y, D')}<br/><i>{moment(row.date).fromNow()}</i></StyledTableCell>
-              <StyledTableCell>
-                <span style={{float: 'left', paddingRight : '8px'}}>{<img width="50px" src={require(`./assets/${row.thumbnail}`)}  className="img-responsive" />}</span>
-                <span>{row.campaignName} <br/> <i>{row.region}</i></span>
-              </StyledTableCell>
-              <StyledTableCell> 
-                 <p style={{paddingRight : '30px', cursor : 'pointer'}} onClick={handleOpen}>
-                    <span style={{ float: 'left', paddingRight : '8px'}}>
-                      {<img width="35px" src={require(`./assets/Price.png`)} className="img-responsive" />}
+              <TableRow>
+                  <StyledTableCell style={{whiteSpace: 'pre-line'}}>{moment(row.date).format('MMM Y, D')}<br/><i>{moment(row.date).fromNow()}</i></StyledTableCell>
+                  <StyledTableCell>
+                    <span style={{float: 'left', paddingRight : '8px'}}>{<img width="50px" src={require(`./assets/${row.thumbnail}`)}  className="img-responsive" />}</span>
+                    <span>{row.campaignName} <br/> <i>{row.region}</i></span>
+                  </StyledTableCell>
+                  <StyledTableCell> 
+                    <span style={{paddingRight : '30px', cursor : 'pointer'}} onClick={handleOpen.bind(this)}>
+                        <span style={{ float: 'left', paddingRight : '8px'}}>
+                          {<img width="35px" src={require(`./assets/Price.png`)} className="img-responsive" />}
+                        </span>
+                        View Pricing
+                    </span> 
+                    <Modal
+                        id={'price-modal-'+ row.rowId}
+                        open={isModalOpen}
+                        onClose={handleClose}
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                      >
+                    {body(row.campaignName, row.region, row.thumbnail)}
+                  </Modal>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                  <span style={{paddingRight : '35px'}}>
+                    <span style={{float: 'left', paddingRight : '8px'}}>
+                      {<img width="30px" src={require(`./assets/file.png`)} className="img-responsive" />}
                     </span>
-                    View Pricing
-                 </p> 
-                 <Modal
-                    open={isModalOpen}
-                    onClose={handleClose}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                  >
-                {body(row.campaignName, row.region, row.thumbnail)}
-              </Modal>
-              </StyledTableCell>
-              <StyledTableCell>
-              <span style={{paddingRight : '35px'}}>
-                <span style={{float: 'left', paddingRight : '8px'}}>
-                  {<img width="30px" src={require(`./assets/file.png`)} className="img-responsive" />}
-                </span>
-                CSV 
-              </span> 
+                    CSV 
+                  </span> 
 
-              <span style={{paddingRight : '35px'}}>
-                <span style={{paddingRight : '8px'}}>
-                  {<img width="30px" src={require(`./assets/statistics-report.png`)} className="img-responsive" />}
-                </span>
-                Report 
-              </span> 
+                  <span style={{paddingRight : '35px'}}>
+                    <span style={{paddingRight : '8px'}}>
+                      {<img width="30px" src={require(`./assets/statistics-report.png`)} className="img-responsive" />}
+                    </span>
+                    Report 
+                  </span> 
 
-              <span style={{paddingRight : '35px', cursor : 'pointer'}} onClick={() => setIsOpen(!isOpen)} >
-                <span style={{paddingRight : '8px'}}>
-                  {<img width="30px" src={require(`./assets/calendar.png`)} className="img-responsive" />}
-                </span>
-                Schedule Again 
-              </span>               
-              <MuiPickersUtilsProvider utils={MomentUtils}>
-                <DateTimePicker style={{display : 'none'}} id={row.rowId} inputProps={datePickerProperties.inputProps} disableUnderline={true} value={selectedDate} onChange={handleDateChange} open={isOpen} onClose={()=> setIsOpen(false)} onOpen={()=> setIsOpen(true)}/>
-              </MuiPickersUtilsProvider>              
-              </StyledTableCell>
+                  <span style={{paddingRight : '35px', cursor : 'pointer'}} onClick={() => setIsOpen(!isOpen)} >
+                    <span style={{paddingRight : '8px'}}>
+                      {<img width="30px" src={require(`./assets/calendar.png`)} className="img-responsive" />}
+                    </span>
+                    Schedule Again 
+                  </span>               
+                  <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <DateTimePicker style={{display : 'none'}} id={'date-picker-'+ row.rowId} inputProps={datePickerProperties.inputProps} disableunderline="true" value={info['date-picker-'+ row.rowId]} onChange={(value) => handleDateChange('date-picker-'+ row.rowId , value)} open={isOpen} onClose={()=> setIsOpen(false)} onOpen={()=> setIsOpen(true)}/>
+                  </MuiPickersUtilsProvider>              
+                  </StyledTableCell>
             </TableRow>
           )}
         </TableBody>
