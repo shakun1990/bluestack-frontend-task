@@ -122,10 +122,10 @@ export default function SimpleTable(props) {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Date</StyledTableCell>
-            <StyledTableCell>Campaign</StyledTableCell>
-            <StyledTableCell>View</StyledTableCell>
-            <StyledTableCell>Actions</StyledTableCell>
+            <StyledTableCell>{props.t ? props.t('Date') : 'Date'}</StyledTableCell>
+            <StyledTableCell>{props.t ? props.t('Campaign') : 'Campaign'}</StyledTableCell>
+            <StyledTableCell>{props.t ? props.t('View') : 'View'}</StyledTableCell>
+            <StyledTableCell>{props.t ? props.t('Actions') : 'Actions'}</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
