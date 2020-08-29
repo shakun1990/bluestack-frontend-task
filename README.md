@@ -1,2 +1,11 @@
 # bluestack-frontend-task
-This is a Public Repo
+
+To Run the project : 
+
+npm run storybook
+
+To Run Unit testcases(jest + enzyme) : 
+
+npm run test
+
+

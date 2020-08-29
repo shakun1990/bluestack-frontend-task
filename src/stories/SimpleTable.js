@@ -1,13 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import Modal from '@material-ui/core/Modal';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { withStyles, makeStyles, TableRow, TableHead, TableContainer, TableCell, TableBody, Modal, Table, Paper } from '@material-ui/core';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import moment from 'moment';
@@ -109,6 +101,22 @@ export default function SimpleTable(props) {
     );
   };
 
+  const timeperiod = (date) => {
+    let status;
+    switch (props.timeperiod) {
+      case "past":
+        status = moment().diff(date, 'days') > 0
+      break;
+      case "present":
+        status = moment().diff(date, 'days') === 0
+      break;
+      default:
+        status = moment().diff(date, 'days') < 0
+      break;
+    }
+    return status;    
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -121,7 +129,9 @@ export default function SimpleTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Array.from(rowData.values()).map((row) =>
+          {Array.from(rowData.values())
+              .filter((row) => timeperiod(row.date))
+              .map((row) =>               
               <TableRow key={'row-'+ row.rowId}>
                   <StyledTableCell style={{whiteSpace: 'pre-line'}}>{moment(row.date).format('MMM Y, D')}<br/><i>{moment(row.date).fromNow()}</i></StyledTableCell>
                   <StyledTableCell>
@@ -170,8 +180,8 @@ export default function SimpleTable(props) {
                     <DatePicker style={{display : 'none'}} id={'date-picker-'+ row.rowId} inputProps={datePickerProperties.inputProps} disableunderline="true" value={info['date-picker-'+ row.rowId]} onChange={(value) => handleDateChange('date-picker-'+ row.rowId , value)} open={isOpen} onClose={()=> setIsOpen(false)} onOpen={()=> setIsOpen(true)}/>
                   </MuiPickersUtilsProvider>              
                   </StyledTableCell>
-            </TableRow>
-          )}
+            </TableRow>             
+            )}
         </TableBody>
       </Table>
     </TableContainer>

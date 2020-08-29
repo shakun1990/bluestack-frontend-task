@@ -6,7 +6,7 @@ import i18n from '../../config/i18n';
 import { storiesOf } from '@storybook/react';
 
 export default {
-  title: 'Example/BlueStack',
+  title: 'BlueStack'
 };
 
 const store = new Store({
@@ -32,7 +32,7 @@ const store = new Store({
     {
       name: "Mole Slayer",
       region: "FR",
-      createdOn: 1559806711124,
+      createdOn: 1598705179000,
       price: "Price info of Mole Slayer",
       csv: "Some CSV link for Mole Slayer",
       report: "Some report link for Mole Slayer",
@@ -41,11 +41,29 @@ const store = new Store({
     {
       name: "Mancala Mix",
       region: "JP",
-      createdOn: 1559806680124,
+      createdOn: 1598877979000,
       price: "Price info of Mancala Mix",
       csv: "Some CSV link for Mancala Mix",
       report: "Some report link for Mancala Mix",
       image_url:"Dashboard/Row Copy 4-Row/Thumb/Bitmap.png"
+    },
+    {
+      name: "PUBG",
+      region: "JP",
+      createdOn: 1599050779000,
+      price: "Price info of Mancala Mix",
+      csv: "Some CSV link for Mancala Mix",
+      report: "Some report link for Mancala Mix",
+      image_url:"Dashboard/Row Copy 5-Row/Thumb/Bitmap.png"
+    },
+    {
+      name: "Need For Speed",
+      region: "JP",
+      createdOn: 1599137179000,
+      price: "Price info of Mancala Mix",
+      csv: "Some CSV link for Mancala Mix",
+      report: "Some report link for Mancala Mix",
+      image_url:"Dashboard/Row Copy 6-Row/Thumb/Bitmap.png"
     }
   ]
 });
@@ -79,8 +97,5 @@ export const CampaignStory = () => {
       </State>
     )
 }
-
-storiesOf('with I18nextProvider', module)
-  .addDecorator(story => <I18nextProvider i18n={i18n}>{CampaignStory()}</I18nextProvider>)
 
 

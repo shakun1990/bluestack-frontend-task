@@ -1,20 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { makeStyles, Tabs, Tab, Typography, Box, Button, ButtonGroup } from '@material-ui/core';
 import { useTranslation, withTranslation } from 'react-i18next';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import SimpleTable from './SimpleTable';
-
-
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -92,13 +83,13 @@ function SimpleTabs(props) {
         <Tab classes={{ selected: classes.selectedTab }} label={<span className={classes.label}>{t ? t('Past Campaigns') : 'Past Campaigns'}</span>} {...a11yProps(2)} />
       </Tabs>      
       <TabPanel value={value} index={0}>        
-        <SimpleTable rowsData={props.rowsData}/>
+        <SimpleTable timeperiod="past" rowsData={props.rowsData}/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <SimpleTable rowsData={props.rowsData}/>
+        <SimpleTable timeperiod="present" rowsData={props.rowsData}/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <SimpleTable rowsData={props.rowsData}/>
+        <SimpleTable timeperiod="future" rowsData={props.rowsData}/>
       </TabPanel>
     </div>
   );
