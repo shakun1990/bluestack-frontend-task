@@ -1,13 +1,8 @@
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16'
-import { configure, mount, shallow, ReactWrapper } from 'enzyme';
-import App from '../src/App';
+import { configure, mount } from 'enzyme';
+import { Tabs, Tab }  from '@material-ui/core';
 import SimpleTabs from '../src/stories/SimpleTabs';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import { act } from 'react-dom/test-utils';
-import i18n from '../config/i18n';
-
 
 configure({ adapter : new Adapter() })
 

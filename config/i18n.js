@@ -24,7 +24,14 @@ i18n
     },
     react: {
       useSuspense: false
-    }
+    },
+    backend: {
+      loadPath: () => {
+        // check the domain
+        const host = window.location.host;
+        return (host === 'https://shakun1990.github.io/' ? '/bluestack-frontend-task/':'') + 'locales/{{lng}}/translation.json';
+      },
+    },
   });
 
 export default i18n;

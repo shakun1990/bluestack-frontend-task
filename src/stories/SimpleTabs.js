@@ -5,10 +5,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import SimpleTable from './SimpleTable';
 import { useTranslation, withTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import SimpleTable from './SimpleTable';
 
 
 
@@ -73,7 +73,7 @@ function SimpleTabs(props) {
   const { t, i18n } = useTranslation();
 
   const changeLanguage = lng => {
-    props.i18n.changeLanguage(lng);
+     i18n.changeLanguage(lng);
   };
 
   const handleChange = (event, newValue) => {
@@ -81,13 +81,11 @@ function SimpleTabs(props) {
   };
 
   return (
-    <div className={classes.root}>         
-      <div className={classes.languageToolbar}>
-      <ButtonGroup color="secondary" aria-label="outlined secondary button group">
+    <div className={classes.root}> 
+      <ButtonGroup className={classes.languageToolbar} color="secondary" aria-label="outlined secondary button group">
         <Button onClick={() => changeLanguage('en')}>English</Button>
         <Button onClick={() => changeLanguage('de')}>German</Button>
-      </ButtonGroup>
-      </div> 
+      </ButtonGroup>     
       <Tabs id="bluestack-simpleTabs" classes={{ indicator: classes.indicator }}  value={value} onChange={handleChange} aria-label="simple tabs example">
         <Tab classes={{ selected: classes.selectedTab }} label={<span className={classes.label}>{t ? t('Upcoming Campaigns') : 'Upcoming Campaigns'}</span>} {...a11yProps(0)} />
         <Tab classes={{ selected: classes.selectedTab }} label={<span className={classes.label}>{t ? t('Live Campaigns') : 'Live Campaigns'}</span>} {...a11yProps(1)} />

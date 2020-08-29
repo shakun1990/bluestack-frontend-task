@@ -8,9 +8,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { DatePicker, MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
-import moment, {Moment} from 'moment';
+import moment from 'moment';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -24,13 +24,6 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -129,7 +122,7 @@ export default function SimpleTable(props) {
         </TableHead>
         <TableBody>
           {Array.from(rowData.values()).map((row) =>
-              <TableRow>
+              <TableRow key={'row-'+ row.rowId}>
                   <StyledTableCell style={{whiteSpace: 'pre-line'}}>{moment(row.date).format('MMM Y, D')}<br/><i>{moment(row.date).fromNow()}</i></StyledTableCell>
                   <StyledTableCell>
                     <span style={{float: 'left', paddingRight : '8px'}}>{<img width="50px" src={require(`./assets/${row.thumbnail}`)}  className="img-responsive" />}</span>
@@ -174,7 +167,7 @@ export default function SimpleTable(props) {
                     Schedule Again 
                   </span>               
                   <MuiPickersUtilsProvider utils={MomentUtils}>
-                    <DateTimePicker style={{display : 'none'}} id={'date-picker-'+ row.rowId} inputProps={datePickerProperties.inputProps} disableunderline="true" value={info['date-picker-'+ row.rowId]} onChange={(value) => handleDateChange('date-picker-'+ row.rowId , value)} open={isOpen} onClose={()=> setIsOpen(false)} onOpen={()=> setIsOpen(true)}/>
+                    <DatePicker style={{display : 'none'}} id={'date-picker-'+ row.rowId} inputProps={datePickerProperties.inputProps} disableunderline="true" value={info['date-picker-'+ row.rowId]} onChange={(value) => handleDateChange('date-picker-'+ row.rowId , value)} open={isOpen} onClose={()=> setIsOpen(false)} onOpen={()=> setIsOpen(true)}/>
                   </MuiPickersUtilsProvider>              
                   </StyledTableCell>
             </TableRow>

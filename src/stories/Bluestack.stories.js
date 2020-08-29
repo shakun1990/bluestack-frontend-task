@@ -1,5 +1,4 @@
 import React from 'react';
-
 import SimpleTabs from './SimpleTabs';
 import {State, Store} from '@sambego/storybook-state';
 import { I18nextProvider } from 'react-i18next';
