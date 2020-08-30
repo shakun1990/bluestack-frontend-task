@@ -6,5 +6,9 @@
     "Date" : "Date",
     "Campaign" : "Campaign",
     "View" : "View",
-    "Actions" : "Actions"
+    "Actions" : "Actions",
+    "View Pricing": "View Pricing",
+    "Report" : "Report",
+    "Schedule Again" : "Schedule Again",
+    "Pricing" : "Pricing"
 }

@@ -6,5 +6,9 @@
     "Date" : "Datum",
     "Campaign" : "Kampagne",
     "View" : "Aussicht",
-    "Actions" : "Aktionen"
+    "Actions" : "Aktionen",
+    "View Pricing": "Preise anzeigen",
+    "Report" : "Bericht",
+    "Schedule Again" : "Planen Sie erneut",
+    "Pricing" : "Preisgestaltung"
 }

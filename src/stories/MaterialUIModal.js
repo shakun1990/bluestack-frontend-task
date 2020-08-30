@@ -1,15 +1,10 @@
-import React, {useState, useEffect} from "react";
-import {
-    withStyles,
+import React, {useState} from "react";
+import {    
     makeStyles,
-    TableRow,
-    TableHead,
+    TableRow,    
     TableContainer,
-    TableCell,
-    TableBody,
-    Modal,
-    Table,
-    Paper,
+    TableCell,    
+    Modal,   
     Typography
 } from "@material-ui/core";
 
@@ -20,7 +15,6 @@ function rand() {
 function getModalStyle() {
     const top = 50 + rand();
     const left = 50 + rand();
-
     return {top: `${top}%`, left: `${left}%`, transform: `translate(-${top}%, -${left}%)`};
 }
 
@@ -51,22 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const MaterialUIModal = (props) => {
     const classes = useStyles();
-    const [modalStyle] = useState(getModalStyle);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [info, setInfo] = useState({fieldname: "", fieldvalue: ""});
-
-
-    const handleClose = () => {
-        setIsModalOpen(false);
-    };
-
-    const handleDateChange = (dateName, dateValue) => {
-        setInfo({
-            ...info,
-            fieldname: dateName,
-            fieldvalue: dateValue
-        });
-    };
+    const [modalStyle] = useState(getModalStyle);    
 
     return (
         <div>
@@ -108,7 +87,7 @@ export const MaterialUIModal = (props) => {
                     <br/>
                     <br/>
                     <h2 id="simple-modal-title">
-                        <b>Pricing</b>
+                    <b>{props.title}</b>
                     </h2>
                     <TableContainer>
                         <TableRow>

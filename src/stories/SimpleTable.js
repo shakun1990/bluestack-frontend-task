@@ -12,8 +12,6 @@ import {
     Paper,
     TableRowColumn
 } from "@material-ui/core";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import MomentUtils from "@date-io/moment";
 import moment from "moment";
 import { MaterialUIPickers } from "./MaterialUIPickers"
 import { MaterialUIModal } from "./MaterialUIModal"
@@ -68,17 +66,13 @@ function rand() {
 function getModalStyle() {
     const top = 50 + rand();
     const left = 50 + rand();
-
     return { top: `${top}%`, left: `${left}%`, transform: `translate(-${top}%, -${left}%)` };
 }
 
 export default function SimpleTable(props) {
     const classes = useStyles();
-    const [rowData, setRowData] = useState(props.rowsData);
-    const [isOpen, setIsOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState({ modalId: "" });
-    const [modalStyle] = React.useState(getModalStyle);
-    const [info, setInfo] = useState({ fieldname: "", fieldvalue: "" });
+    const [rowData, setRowData] = useState(props.rowsData);     
+    const [isModalOpen, setIsModalOpen] = useState({ modalId: "" });  
     const [isCalenderOpen, setIsCalenderOpen] = useState({ calenderId: "" });
 
     useEffect(() => {
@@ -110,10 +104,8 @@ export default function SimpleTable(props) {
             setRowData(newCampaignListing);
         }
     }
-
-    const body = (campaignName, region, thumbnail) => { };
-
-    const timeperiod = (date) => {
+    
+    const timePeriod = (date) => {
         let status;
         switch (props.timeperiod) {
             case "past": 
@@ -154,7 +146,7 @@ export default function SimpleTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody> {
-                    Array.from(rowData.values()).filter((row) => timeperiod(row.date)).map((row) => (
+                    Array.from(rowData.values()).filter((row) => timePeriod(row.date)).map((row) => (
                         <TableRow key={
                             "row-" + row.rowId
                         }>
@@ -224,7 +216,10 @@ export default function SimpleTable(props) {
                                     <TableCell className={classes.tableCell}>
                                         <span id={
                                             'modal' + row.rowId
-                                        }>View Pricing
+                                        }>
+                                        {
+                                            props.t ? props.t("View Pricing") : "View Pricing"
+                                        }
                                         </span>                                        
                                     </TableCell>
                                 
@@ -244,7 +239,11 @@ export default function SimpleTable(props) {
                                         }
                                         region={
                                             row.region
-                                        } />
+                                        }
+                                        title={
+                                            props.t ? props.t("Pricing") : "Pricing"
+                                        } 
+                                        />
                                         </TableRow>
                             </TableCell>
                             <TableCell>
@@ -265,7 +264,7 @@ export default function SimpleTable(props) {
                                                 } 
                                             </TableCell>
                                             <TableCell className={classes.tableCell} >
-                                            CSV   
+                                            CSV
                                             </TableCell>
                                     </TableRow>                               
                                 </TableCell>
@@ -284,8 +283,10 @@ export default function SimpleTable(props) {
                                                     />
                                                 } 
                                             </TableCell>
-                                            <TableCell className={classes.tableCell} >
-                                                Report   
+                                            <TableCell className={classes.tableCell} >                                                 
+                                            {
+                                               props.t ? props.t("Report") : "Report"
+                                            }  
                                             </TableCell>
                                     </TableRow>                               
                                 </TableCell>   
@@ -309,8 +310,10 @@ export default function SimpleTable(props) {
                                                     (event) => handleCalenderOpen(event)
                                                 }
                                                 id={'calender' + row.rowId}
-                                            >
-                                                Schedule Again   
+                                            >                                                
+                                                {
+                                                   props.t ? props.t("Schedule Again") : "Schedule Again"
+                                                }     
                                             </TableCell>
                                             <TableCell className={classes.tableCell}>
                                                 <MaterialUIPickers 

@@ -1,10 +1,8 @@
 import 'date-fns';
 import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
 import MomentUtils from "@date-io/moment";
-
-import {MuiPickersUtilsProvider, KeyboardDatePicker, DateTimePicker} from '@material-ui/pickers';
+import {MuiPickersUtilsProvider, DateTimePicker} from '@material-ui/pickers';
 
 const datePickerProperties = {
     views: ["date"],
@@ -20,8 +18,7 @@ const datePickerProperties = {
 
 export const MaterialUIPickers = (props) => {
     const [selectedDate, setSelectedDate] = React.useState(new Date());
-    const [info, setInfo] = useState({ fieldname: "", fieldvalue: "" });
-
+    
     const handleDateChange = (calenderId, date) => {        
         setSelectedDate(date);
         props.selectedData(calenderId, date);
