@@ -33,11 +33,24 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     position: "absolute",
-    width: 400,
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+  },
+  popTableCell: {
+    flexGrow: 1,
+    borderBottom: "none",
+    paddingLeft: "0px",
+    paddingRight: "40px",
+  },
+  popButton: {
+    border: "1px solid #000",
+  },
+  popButtonWraper: {
+    borderBottom: "none",
+  },
+  popPriceTableCell: {
+    borderBottom: "none",
   },
 }));
 
@@ -106,21 +119,41 @@ export default function SimpleTable(props) {
         <br />
         <br />
         <br />
-        <br />
         <h2 id="simple-modal-title">
           <b>Pricing</b>
         </h2>
-        <span id="simple-modal-description">
-          1 Week - 1 Month - $100
-          <br />
-          6 Month - $500
-          <br />
-          1 Year - $900
-          <br />
-        </span>
-        <button type="button" onClick={handleClose}>
-          Close
-        </button>
+        <TableContainer>
+          <TableRow>
+            <TableCell className={classes.popTableCell}>
+              1 Week - 1 Month
+            </TableCell>
+            <TableCell className={classes.popPriceTableCell}>$100</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className={classes.popTableCell}>6 Month</TableCell>
+            <TableCell className={classes.popPriceTableCell}>$500</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className={classes.popTableCell}>1 Year</TableCell>
+            <TableCell className={classes.popPriceTableCell}>$900</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell
+              colSpan={2}
+              align="center"
+              className={classes.popButtonWraper}
+              style={{ width: "100%" }}
+            >
+              <button
+                className={classes.popButton}
+                type="button"
+                onClick={handleClose}
+              >
+                Close
+              </button>
+            </TableCell>
+          </TableRow>
+        </TableContainer>
       </div>
     );
   };

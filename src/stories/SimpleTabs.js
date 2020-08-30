@@ -13,7 +13,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { useTranslation, withTranslation } from "react-i18next";
-import { LanguageIcon } from "@material-ui/icons";
+import LanguageIcon from "@material-ui/icons/Language";
 import SimpleTable from "./SimpleTable";
 
 function TabPanel(props) {
@@ -126,7 +126,7 @@ function SimpleTabs(props) {
             />
           </Typography>
           <IconButton
-            aria-label="language"
+            aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleMenu}
