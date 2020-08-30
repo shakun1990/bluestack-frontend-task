@@ -80,7 +80,8 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     paddingTop: "10px",
     paddingBottom: "10px",
-    width: "15%",
+    maxWidth: "22%",
+    height: "auto"
   },
   logoWrapper: {
     paddingLeft: "3px",
@@ -193,13 +194,13 @@ function SimpleTabs(props) {
         />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <SimpleTable timeperiod="past" t={t} rowsData={props.rowsData} />
+        <SimpleTable timeperiod="future"  t={t} rowsData={props.rowsData} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <SimpleTable timeperiod="present" t={t} rowsData={props.rowsData} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <SimpleTable timeperiod="future" t={t} rowsData={props.rowsData} />
+        <SimpleTable timeperiod="past"  t={t} rowsData={props.rowsData} />
       </TabPanel>
     </div>
   );

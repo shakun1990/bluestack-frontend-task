@@ -1,315 +1,338 @@
 import React, { useState, useEffect } from "react";
 import {
-  withStyles,
-  makeStyles,
-  TableRow,
-  TableHead,
-  TableContainer,
-  TableCell,
-  TableBody,
-  Modal,
-  Table,
-  Paper,
+    withStyles,
+    makeStyles,
+    TableRow,
+    TableHead,
+    TableContainer,
+    TableCell,
+    TableBody,
+    Modal,
+    Table,
+    Paper,
+    TableRowColumn
 } from "@material-ui/core";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import moment from "moment";
+import { MaterialUIPickers } from "./MaterialUIPickers"
+import { MaterialUIModal } from "./MaterialUIModal"
 
 const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: "#F1F1F4",
-    color: "#556789",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-  },
-  body: {
-    fontSize: 14,
-  },
+    head: {
+        backgroundColor: "#F1F1F4",
+        color: "#556789",
+        fontWeight: "bold",
+        textTransform: "uppercase"
+    },
+    body: {
+        fontSize: 14
+    }
 }))(TableCell);
 
 const useStyles = makeStyles((theme) => ({
-  table: {
-    minWidth: 700,
-  },
-  paper: {
-    position: "absolute",
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  popTableCell: {
-    flexGrow: 1,
-    borderBottom: "none",
-    paddingLeft: "0px",
-    paddingRight: "40px",
-  },
-  popButton: {
-    border: "1px solid #000",
-  },
-  popButtonWraper: {
-    borderBottom: "none",
-  },
-  popPriceTableCell: {
-    borderBottom: "none",
-  },
+    table: {
+        minWidth: 700
+    },
+    paper: {
+        position: "absolute",
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3)
+    },
+    popTableCell: {
+        flexGrow: 1,
+        borderBottom: "none",
+        paddingLeft: "0px",
+        paddingRight: "40px"
+    },
+    popButton: {
+        border: "1px solid #000"
+    },
+    popButtonWraper: {
+        borderBottom: "none"
+    },
+    popPriceTableCell: {
+        borderBottom: "none"
+    },
+    tableCell : {
+        padding : '0',
+        borderBottom: "none"       
+    }
 }));
 
-const datePickerProperties = {
-  views: ["date"],
-  orientation: "landscape",
-  variant: "inline",
-  isToolbarEnabled: false,
-  inputProps: { disableunderline: "true" },
-  format: "M/D/YYYY",
-  isAutoOkEnabled: true,
-};
-
 function rand() {
-  return Math.round(Math.random() * 20) - 10;
+    return Math.round(Math.random() * 20) - 10;
 }
 
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+    const top = 50 + rand();
+    const left = 50 + rand();
 
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
+    return { top: `${top}%`, left: `${left}%`, transform: `translate(-${top}%, -${left}%)` };
 }
 
 export default function SimpleTable(props) {
-  const classes = useStyles();
-  const [rowData, setRowData] = useState(props.rowsData);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalStyle] = React.useState(getModalStyle);
-  const [info, setInfo] = useState({ fieldname: "", fieldvalue: "" });
-  useEffect(() => {
-    setRowData(props.rowsData);
-  }, [props.rowsData]);
+    const classes = useStyles();
+    const [rowData, setRowData] = useState(props.rowsData);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState({ modalId: "" });
+    const [modalStyle] = React.useState(getModalStyle);
+    const [info, setInfo] = useState({ fieldname: "", fieldvalue: "" });
+    const [isCalenderOpen, setIsCalenderOpen] = useState({ calenderId: "" });
 
-  const handleOpen = () => {
-    setIsModalOpen(true);
-  };
-  const handleClose = () => {
-    setIsModalOpen(false);
-  };
+    useEffect(() => {
+        setRowData(props.rowsData);
+    }, [props.rowsData]);
 
-  const handleDateChange = (dateName, dateValue) => {
-    setInfo({ ...info, fieldname: dateName, fieldvalue: dateValue });
-  };
+    const handleOpen = (event) => {
+        setIsModalOpen({ [event.target.id]: true });
+    };
 
-  const body = (campaignName, region, thumbnail) => {
-    return (
-      <div style={modalStyle} className={classes.paper}>
-        <span style={{ float: "left", paddingRight: "8px" }}>
-          {
-            <img
-              alt="thumbnail"
-              src={require(`./assets/${thumbnail}`)}
-              className="img-responsive"
-            />
-          }
-        </span>
-        <span>
-          {campaignName} <br /> {region}
-        </span>
-        <br />
-        <br />
-        <br />
-        <h2 id="simple-modal-title">
-          <b>Pricing</b>
-        </h2>
-        <TableContainer>
-          <TableRow>
-            <TableCell className={classes.popTableCell}>
-              1 Week - 1 Month
-            </TableCell>
-            <TableCell className={classes.popPriceTableCell}>$100</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className={classes.popTableCell}>6 Month</TableCell>
-            <TableCell className={classes.popPriceTableCell}>$500</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className={classes.popTableCell}>1 Year</TableCell>
-            <TableCell className={classes.popPriceTableCell}>$900</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell
-              colSpan={2}
-              align="center"
-              className={classes.popButtonWraper}
-              style={{ width: "100%" }}
-            >
-              <button
-                className={classes.popButton}
-                type="button"
-                onClick={handleClose}
-              >
-                Close
-              </button>
-            </TableCell>
-          </TableRow>
-        </TableContainer>
-      </div>
-    );
-  };
+    const handleCalenderOpen = (event) => {          
+        setIsCalenderOpen({ [event.target.id]: true });        
+    };
 
-  const timeperiod = (date) => {
-    let status;
-    switch (props.timeperiod) {
-      case "past":
-        status = moment().diff(date, "days") > 0;
-        break;
-      case "present":
-        status = moment().diff(date, "days") === 0;
-        break;
-      default:
-        status = moment().diff(date, "days") < 0;
-        break;
+    const handleClose = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCalenderClose = (elementId) => {        
+        setIsCalenderOpen({ [elementId]: false });        
     }
-    return status;
-  };
 
-  return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>
-              {props.t ? props.t("Date") : "Date"}
-            </StyledTableCell>
-            <StyledTableCell>
-              {props.t ? props.t("Campaign") : "Campaign"}
-            </StyledTableCell>
-            <StyledTableCell>
-              {props.t ? props.t("View") : "View"}
-            </StyledTableCell>
-            <StyledTableCell>
-              {props.t ? props.t("Actions") : "Actions"}
-            </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {Array.from(rowData.values())
-            .filter((row) => timeperiod(row.date))
-            .map((row) => (
-              <TableRow key={"row-" + row.rowId}>
-                <StyledTableCell style={{ whiteSpace: "pre-line" }}>
-                  {moment(row.date).format("MMM Y, D")}
-                  <br />
-                  <i>{moment(row.date).fromNow()}</i>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <span style={{ float: "left", paddingRight: "8px" }}>
-                    {
-                      <img
-                        alt="thumbnail"
-                        width="50px"
-                        src={require(`./assets/${row.thumbnail}`)}
-                        className="img-responsive"
-                      />
-                    }
-                  </span>
-                  <span>
-                    {row.campaignName} <br /> <i>{row.region}</i>
-                  </span>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <span
-                    style={{ paddingRight: "30px", cursor: "pointer" }}
-                    onClick={handleOpen.bind(this)}
-                  >
-                    <span style={{ float: "left", paddingRight: "8px" }}>
-                      {
-                        <img
-                          alt="viewpricing"
-                          width="35px"
-                          src={require(`./assets/Price.png`)}
-                          className="img-responsive"
-                        />
-                      }
-                    </span>
-                    View Pricing
-                  </span>
-                  <Modal
-                    id={"price-modal-" + row.rowId}
-                    open={isModalOpen}
-                    onClose={handleClose}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                  >
-                    {body(row.campaignName, row.region, row.thumbnail)}
-                  </Modal>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <span style={{ paddingRight: "35px" }}>
-                    <span style={{ float: "left", paddingRight: "8px" }}>
-                      {
-                        <img
-                          alt="csv"
-                          width="30px"
-                          src={require(`./assets/file.png`)}
-                          className="img-responsive"
-                        />
-                      }
-                    </span>
-                    CSV
-                  </span>
+    const getSelectedDate = (elementId, elementValue) => {
+        const newCampaignListing = new Map(rowData);
+        const currentRow = newCampaignListing.get(elementId);
+        if(currentRow) {
+            currentRow['date'] = elementValue.valueOf();
+            newCampaignListing.set(elementId, currentRow);
+            setRowData(newCampaignListing);
+        }
+    }
 
-                  <span style={{ paddingRight: "35px" }}>
-                    <span style={{ paddingRight: "8px" }}>
-                      {
-                        <img
-                          alt="Report"
-                          width="30px"
-                          src={require(`./assets/statistics-report.png`)}
-                          className="img-responsive"
-                        />
-                      }
-                    </span>
-                    Report
-                  </span>
+    const body = (campaignName, region, thumbnail) => { };
 
-                  <span
-                    style={{ paddingRight: "35px", cursor: "pointer" }}
-                    onClick={() => setIsOpen(!isOpen)}
-                  >
-                    <span style={{ paddingRight: "8px" }}>
-                      {
-                        <img
-                          alt="Schedule Again"
-                          width="30px"
-                          src={require(`./assets/calendar.png`)}
-                          className="img-responsive"
-                        />
-                      }
-                    </span>
-                    Schedule Again
-                  </span>
-                  <MuiPickersUtilsProvider utils={MomentUtils}>
-                    <DatePicker
-                      style={{ display: "none" }}
-                      id={"date-picker-" + row.rowId}
-                      inputProps={datePickerProperties.inputProps}
-                      disableunderline="true"
-                      value={info["date-picker-" + row.rowId]}
-                      onChange={(value) =>
-                        handleDateChange("date-picker-" + row.rowId, value)
-                      }
-                      open={isOpen}
-                      onClose={() => setIsOpen(false)}
-                      onOpen={() => setIsOpen(true)}
-                    />
-                  </MuiPickersUtilsProvider>
-                </StyledTableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+    const timeperiod = (date) => {
+        let status;
+        switch (props.timeperiod) {
+            case "past": 
+                status = moment().diff(date, "days") > 0;
+                break;
+            case "present":
+                status = moment().diff(date, "days") === 0;                
+                break;
+            case "future":
+                status = moment().diff(date, "days") < 0;
+                break;    
+            default: 
+                break;
+        }
+        return status;
+    };
+
+    return (
+        <TableContainer component={Paper}>
+            <Table className={
+                classes.table
+            }
+                aria-label="customized table">
+                <TableHead>
+                    <TableRow>
+                        <StyledTableCell> {
+                            props.t ? props.t("Date") : "Date"
+                        } </StyledTableCell>
+                        <StyledTableCell> {
+                            props.t ? props.t("Campaign") : "Campaign"
+                        } </StyledTableCell>
+                        <StyledTableCell> {
+                            props.t ? props.t("View") : "View"
+                        } </StyledTableCell>
+                        <StyledTableCell> {
+                            props.t ? props.t("Actions") : "Actions"
+                        } </StyledTableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody> {
+                    Array.from(rowData.values()).filter((row) => timeperiod(row.date)).map((row) => (
+                        <TableRow key={
+                            "row-" + row.rowId
+                        }>
+                            <TableCell style={
+                                { whiteSpace: "pre-line" }
+                            }>
+                                {
+                                    moment(row.date).format("MMM Y, D")
+                                }
+                                <br />
+                                <i>{
+                                    moment(row.date).fromNow()
+                                }</i>                                
+                            </TableCell>
+                            <TableCell>
+                                <TableRow>
+                                <TableCell className={classes.tableCell} style={ { paddingRight: "10px" } }> 
+                                        <TableRow>                                  
+                                            <TableCell className={classes.tableCell} style={{ paddingRight: "8px" }}>
+                                                {
+                                                    
+                                                    < img
+                                                        alt="thumbnail"
+                                                        width="50px"
+                                                        src={
+                                                            require(`./assets/${
+                                                                row.thumbnail
+                                                                }`)
+                                                        }
+                                                        className="img-responsive"
+                                                    />
+                                                } 
+                                            </TableCell>
+                                            <TableCell className={classes.tableCell} >
+                                            {row.campaignName} 
+                                            <br />
+                                    <i>{
+                                        row.region
+                                    }</i>
+                                            </TableCell>
+                                    </TableRow>                               
+                                </TableCell>
+                                </TableRow>                                
+                            </TableCell>
+                            <TableCell>                                
+                                <TableRow style={{cursor: "pointer"}}
+                                    onClick={
+                                        (event) => handleOpen(event)
+                                    }>
+                                    <TableCell className={classes.tableCell}>
+                                        <span style={
+                                            {                                                 
+                                                paddingRight: "8px"
+                                            }
+                                        }>
+                                            {
+                                                < img
+                                                    alt="viewpricing"
+                                                    width="35px"
+                                                    src={
+                                                        require(`./assets/Price.png`)
+                                                    }
+                                                    className="img-responsive"
+                                                />
+                                            } </span>
+                                    </TableCell>
+                                    <TableCell className={classes.tableCell}>
+                                        <span id={
+                                            'modal' + row.rowId
+                                        }>View Pricing
+                                        </span>                                        
+                                    </TableCell>
+                                
+
+                                    <MaterialUIModal key={
+                                        'modal' + row.rowId
+                                    }
+                                        isOpen={
+                                            isModalOpen['modal' + row.rowId]
+                                        }
+                                        onClose={handleClose}
+                                        thumbnail={
+                                            row.thumbnail
+                                        }
+                                        campaignName={
+                                            row.campaignName
+                                        }
+                                        region={
+                                            row.region
+                                        } />
+                                        </TableRow>
+                            </TableCell>
+                            <TableCell>
+                            <TableRow>
+                                <TableCell className={classes.tableCell} style={ { paddingRight: "35px" } }> 
+                                        <TableRow>                                  
+                                            <TableCell className={classes.tableCell} style={{ paddingRight: "8px" }}>
+                                                {
+                                                    
+                                                    < img
+                                                        alt="Report"
+                                                        width="30px"
+                                                        src={
+                                                            require(`./assets/file.png`)
+                                                        }
+                                                        className="img-responsive"
+                                                    />
+                                                } 
+                                            </TableCell>
+                                            <TableCell className={classes.tableCell} >
+                                            CSV   
+                                            </TableCell>
+                                    </TableRow>                               
+                                </TableCell>
+                                <TableCell className={classes.tableCell} style={ { paddingRight: "35px" } }> 
+                                        <TableRow>                                  
+                                            <TableCell className={classes.tableCell} style={{ paddingRight: "8px" }}>
+                                                {
+                                                    
+                                                    < img
+                                                        alt="Report"
+                                                        width="30px"
+                                                        src={
+                                                            require(`./assets/statistics-report.png`)
+                                                        }
+                                                        className="img-responsive"
+                                                    />
+                                                } 
+                                            </TableCell>
+                                            <TableCell className={classes.tableCell} >
+                                                Report   
+                                            </TableCell>
+                                    </TableRow>                               
+                                </TableCell>   
+                                <TableCell className={classes.tableCell}> 
+                                        <TableRow>                                  
+                                            <TableCell className={classes.tableCell} style={{ paddingRight: "8px" }}>
+                                                {
+                                                    
+                                                    < img
+                                                        alt="Schedule Again"
+                                                        width="30px"
+                                                        src={
+                                                            require(`./assets/calendar.png`)
+                                                        }
+                                                        className="img-responsive"
+                                                    />
+                                                } 
+                                            </TableCell>
+                                            <TableCell style={{cursor: "pointer"}} className={classes.tableCell} 
+                                                onClick={
+                                                    (event) => handleCalenderOpen(event)
+                                                }
+                                                id={'calender' + row.rowId}
+                                            >
+                                                Schedule Again   
+                                            </TableCell>
+                                            <TableCell className={classes.tableCell}>
+                                                <MaterialUIPickers 
+                                                key={
+                                                    'calender' + row.rowId
+                                                }
+                                                id={row.rowId}
+                                                closeCalender={handleCalenderClose}
+                                                selectedData={getSelectedDate}
+                                                isOpen={
+                                                    isCalenderOpen['calender' + row.rowId] ? isCalenderOpen['calender' + row.rowId] : false
+                                                }
+                                                />
+                                            </TableCell>
+                                    </TableRow>                               
+                                </TableCell>
+                            </TableRow>
+                            </TableCell>
+                        </TableRow>
+                    ))
+                } </TableBody>
+            </Table>
+        </TableContainer>
+    );
 }
