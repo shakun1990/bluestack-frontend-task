@@ -86,7 +86,7 @@ const initializeRowData = (rowData, index) => {
 }
 
 
-export const CampaignStory = () => {
+const CampaignStory = () => {
     return (
       <State store={store}>
         {state => (
