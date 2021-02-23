@@ -3,7 +3,6 @@ import SimpleTabs from './SimpleTabs';
 import {State, Store} from '@sambego/storybook-state';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../../config/i18n';
-import { storiesOf } from '@storybook/react';
 
 export default {
   title: 'BlueStack'
@@ -85,8 +84,7 @@ const initializeRowData = (rowData, index) => {
   return rowById;
 }
 
-
-const CampaignStory = () => {
+export const CampaignStory = () => {
     return (
       <State store={store}>
         {state => (

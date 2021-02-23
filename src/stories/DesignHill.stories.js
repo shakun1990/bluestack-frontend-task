@@ -8,12 +8,6 @@ export default {
   title: 'DesignHill'
 };
 
-const store = new Store({
-   n: 10,
-   y: 5,
-   z: 10
-});
-
 
 export const AshtapadaStory = () => {
   let enteredN = prompt('Please enter value of N');
