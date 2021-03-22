@@ -36,24 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-table {
-  margin:1em auto;
-}
-td {
-  height:30px;
-  width:30px;
-  border:1px solid;
-  text-align:center;
-}
-tr:first-child {
-  border-top:solid;
-}
-
-.active {
-  background-color: #282c34;
-}
-
-.new {
-  background-color: #ebebeb;
-}
